@@ -1,0 +1,34 @@
+// import 'dart:js';
+
+import 'package:flutter/material.dart';
+
+class NavigationService {
+  late GlobalKey<NavigatorState> navigationKey;
+  static NavigationService intance = NavigationService();
+  NavigationService() {
+    navigationKey = GlobalKey<NavigatorState>();
+  }
+  navigate(Widget rn) {
+    return navigationKey.currentState!
+        .push(MaterialPageRoute(builder: (context) => rn));
+  }
+
+  goBack() {
+    return navigationKey.currentState!.pop();
+  }
+
+  showLoader() {
+    Future.delayed(Duration.zero, () {
+      showDialog(
+          barrierDismissible: false,
+          context: navigationKey.currentContext!,
+          builder: (BuildContext context) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            );
+          });
+    });
+  }
+}
